@@ -1,0 +1,362 @@
+Delivered-To: ynabvenmo@gmail.com
+Received: by 2002:a05:6f02:4283:b0:61:ec55:ec8f with SMTP id n3csp1449421rcf;
+        Fri, 22 Dec 2023 22:06:07 -0800 (PST)
+X-Received: by 2002:ac2:5e8e:0:b0:50e:644f:55c6 with SMTP id b14-20020ac25e8e000000b0050e644f55c6mr1215585lfq.3.1703311566958;
+        Fri, 22 Dec 2023 22:06:06 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1703311566; cv=none;
+        d=google.com; s=arc-20160816;
+        b=nazlKq5mymCJ7TFch4S+YYH22CHy+2nQMc7Pxtmm3aBJgi4U1lgQGUaMfJxoO1w146
+         aOa8KAHyMTlD9MK+wuV8Ubz0VMDiaGaSaNYnRjvU/XvswXfGxJcrVXNRZsq0/EBz/Yvk
+         gGoCLRxlQtAiPXaCEfSSVX4bv+Y4tS49aeF9zS7lEK4CrL6Vd1av6qfLnW55fF6FiU6B
+         dXEiFUHyxsu6e+dZPzwB6nFzN6DLgt2ZkPqilthc51MOAX30RSOmE23nlrpClAt77KRW
+         FZhie6z0T4otsboSjFZ6GFnZNMsZcWYU3HFzPvxbo4V9acv+5Hx54pt/GDB5FAmn0uIi
+         HZAw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :dkim-signature;
+        bh=MuUrMmBPo2ki9pJapTK/l688MeI1xYM/r8ASLFhTqS8=;
+        fh=andwcFIuA96jATpCNebKBI1x/GalENNSZsF4WupzSYY=;
+        b=FTdcm9DI3pHLLHni6UntUzvS+3M/cTn6ORK0X1Of9KOU2WuQa1Q/LUeMtmK5iFFVMH
+         ATpaeq2ZlaEW1jfM0DQt5+S/CneRrFHBm4D4w7rIRs/fYZiwhSQXwKlgzTXbzuFAR5SL
+         ZGPnRqUATnUPGL25uGKdHO2dzQ7LX1YsSmOT+ALrk9/kEBw2JlNJP33GWqP+70DEUQdN
+         SYDbpvoOtRGorO3P3T//aZA2vpuDy+z1Dv0+dANNnbwi4luia9eQTJLO0GaVydWf2cZ+
+         0gyznsjg5fCLV0E0hwrEpiKwusjTYTfLP2t4pVFuc9G1rFU0zGFcDx0lqEL8GsDKeNEA
+         ix1w==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=CyKy8IBL;
+       spf=pass (google.com: domain of hcussen6@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=hcussen6@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Return-Path: <hcussen6@gmail.com>
+Received: from mail-sor-f41.google.com (mail-sor-f41.google.com. [209.85.220.41])
+        by mx.google.com with SMTPS id y9-20020a199149000000b0050e6d7a6689sor366534lfj.24.2023.12.22.22.06.06
+        for <ynabvenmo@gmail.com>
+        (Google Transport Security);
+        Fri, 22 Dec 2023 22:06:06 -0800 (PST)
+Received-SPF: pass (google.com: domain of hcussen6@gmail.com designates 209.85.220.41 as permitted sender) client-ip=209.85.220.41;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=CyKy8IBL;
+       spf=pass (google.com: domain of hcussen6@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=hcussen6@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1703311566; x=1703916366; dara=google.com;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MuUrMmBPo2ki9pJapTK/l688MeI1xYM/r8ASLFhTqS8=;
+        b=CyKy8IBLvt1Z4DqWIUoSSSccXi1OQWw1s1WUpm4VdvmL69bsH1otnG3PLutKSoCWsN
+         w+ESBJceY8W73dy0z/hptq7fRN9OukaODrT9r8KVGj9ClrXliCxDth1gY1BKQ8cndhPS
+         7INCQfb9IKV2vJadO/IEQlLGlXluhxlHBSmKI/6IXRxGSBRzg06naJzsvPl+uO4tSo12
+         zdVYpFMiYVwUrj+wMlHQmL3MB9PWQHTsuSLvN6mAmsjuZ+16ill/TQyAR94CuhzImh44
+         HompSh+7o3nDdzupvAFZhiP1TM3nobcFaBx26+N91mwBd4uvqetY0m7ewIFjiYHYxqYb
+         wtTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703311566; x=1703916366;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MuUrMmBPo2ki9pJapTK/l688MeI1xYM/r8ASLFhTqS8=;
+        b=LGJu8t3xZa+6Fx9cQ5ZH22N2qcXaXy15R5aZpQL1G+xGEqNj7bcONCLKHqwlPRBZw0
+         a8ebA7XM07GZ4ZRpqykG0ENnCBgw9ICTybQMt17ELa42k4poun0QnVIsvRaeDfe7JGvP
+         m9gR/46PSBPWVSNvg0eU+c2ccqVmNMTZHPkreNTArWJjlP54ZiVuL+0NaHJ+3JZZF+YE
+         4qbkT6p5ErBbwGYcWJ+pbTUVsQakl638DDU49n3ahSL6vzb3oyQhLk0d9eSyBBIlQS8J
+         K0M1c6ffkygAS9UlAb4B4ZIf4HuaN4yO1gAfllfI5LmXC8Zgk5SrbFgq+QJiL8XEJYiE
+         f+Ow==
+X-Gm-Message-State: AOJu0YwauIuH0ROH0eFflDx/nZrck4Vvgs5tLSmGBY0SJzb1ZkKKwW9K
+	hX4U0kobhCJO53EowYeU1UCF3+0DNGYm1FUAoLNPlAC0
+X-Google-Smtp-Source: AGHT+IEx1hQzhtFM7Ze0Knm7hZpXXb0R5ak0maotvDV/+vQfnXbmbCb8SD103Vg8EEFV93pWRK9w4S0Ku/vHgE6MRYs=
+X-Received: by 2002:a05:651c:3db:b0:2cc:9319:683d with SMTP id
+ f27-20020a05651c03db00b002cc9319683dmr990049ljp.28.1703311565904; Fri, 22 Dec
+ 2023 22:06:05 -0800 (PST)
+MIME-Version: 1.0
+References: <0100018c6f722cd7-8f847dc7-5e19-4605-91ff-491d9562c566-000000@email.amazonses.com>
+In-Reply-To: <0100018c6f722cd7-8f847dc7-5e19-4605-91ff-491d9562c566-000000@email.amazonses.com>
+From: Hannah Cussen <hcussen6@gmail.com>
+Date: Fri, 22 Dec 2023 23:05:54 -0700
+Message-ID: <CAL41s+10h7uThisAXtH+u_C+o_iDQUvchc57gRfqgrr2qmdbmQ@mail.gmail.com>
+Subject: Fwd: Ellie L paid you $6.56
+To: ynabvenmo@gmail.com
+Content-Type: multipart/alternative; boundary="000000000000d3e01a060d2720d9"
+
+--000000000000d3e01a060d2720d9
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+---------- Forwarded message ---------
+From: Venmo <venmo@venmo.com>
+Date: Fri, Dec 15, 2023 at 2:46=E2=80=AFPM
+Subject: Ellie L paid you $6.56
+To: <hcussen6@gmail.com>
+
+
+[image: venmo]
+<https://venmo.com/code?user_id=3D2065644925222912601&actor_id=3D2470762640=
+310272272>
+Ellie L
+<https://venmo.com/code?user_id=3D2065644925222912601&actor_id=3D2470762640=
+310272272>
+paid
+You
+<https://venmo.com/code?user_id=3D2470762640310272272&actor_id=3D2470762640=
+310272272>
+
+ramennnn
+Transfer Date and Amount:
+Dec 15, 2023 PST =C2=B7 [image: private] + $6.56
+Like
+<https://venmo.com/story/3958657955118143214?k=3D46f6bb0b-f1d1-4686-8371-3f=
+9084ae926a>
+Comment
+<https://venmo.com/story/3958657955118143214?login=3D1>
+
+Money credited to your Venmo account.
+Transfer to your bank <https://venmo.com/cash_out>.
+
+Payment ID: 3958657954388494017
+Invite Friends!
+<https://venmo.com/referral/invite?campaign_service=3Demail&campaign_templa=
+te=3Dpayment.received>
+For any issues, including the recipient not receiving funds, please contact
+us at support@venmo.com or call 1-855-812-4430.
+This payment will be reviewed for compliance with our User Agreement and if
+we determine that there is a violation by either party, it may be reversed
+or your ability to transfer to your bank account may be restricted.
+Venmo is a service of PayPal, Inc., a licensed provider of money transfer
+services. All money transmission is provided by PayPal, Inc. pursuant
+to PayPal,
+Inc.=E2=80=99s licenses <https://venmo.com/legal/us-licenses/>.
+
+PayPal is located at
+
+2211 North First Street, San Jose, CA 95131
+For security reasons, you cannot unsubscribe from payment emails.
+
+--000000000000d3e01a060d2720d9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">---------- Forwarded message ---------<br>From: <strong cla=
+ss=3D"gmail_sendername" dir=3D"auto">Venmo</strong> <span dir=3D"auto">&lt;=
+<a href=3D"mailto:venmo@venmo.com">venmo@venmo.com</a>&gt;</span><br>Date: =
+Fri, Dec 15, 2023 at 2:46=E2=80=AFPM<br>Subject: Ellie L paid you $6.56<br>=
+To:  &lt;<a href=3D"mailto:hcussen6@gmail.com">hcussen6@gmail.com</a>&gt;<b=
+r></div><br><br>
+
+<u></u>
+
+   =20
+       =20
+       =20
+   =20
+
+    <div style=3D"margin:0;color:#2f3033">
+       =20
+        <div style=3D"font-family:&#39;helvetica neue&#39;">
+            <div style=3D"margin:0 auto;max-width:320px">
+                <div style=3D"font-size:14px;border:2px solid #e8ebea">
+                    <div style=3D"padding:10px 0;text-align:center;backgrou=
+nd-color:#0074de">
+                        <img src=3D"https://s3.amazonaws.com/venmo/venmo-lo=
+go-white.png" alt=3D"venmo" title=3D"venmo" style=3D"color:#fff;width:125px=
+;height:24px">
+                    </div>
+                   =20
+                    <div style=3D"padding:20px;background-color:#fff">
+                       =20
+<div width=3D"100%">
+   =20
+
+
+
+   =20
+
+<table id=3D"m_-2304873249963378756_story" width=3D"100%"> <tbody>
+    <tr>
+       =20
+        <td valign=3D"top" width=3D"48px" style=3D"padding-right:10px">
+            <a href=3D"https://venmo.com/code?user_id=3D2065644925222912601=
+&amp;actor_id=3D2470762640310272272" aria-label=3D"" target=3D"_blank">
+                <img src=3D"https://pics.venmo.com/94f6ec24-b3b1-487a-bccc-=
+723881f8ca35?width=3D100&amp;height=3D100&amp;photoVersion=3D5" alt=3D"" st=
+yle=3D"border-radius:3px;width:48px;height:48px">
+            </a>
+        </td>
+        <td style=3D"font-size:14px;color:#2f3033;vertical-align:top;paddin=
+g-left:2px">
+            <div>
+               =20
+                <a style=3D"color:#0074de;text-decoration:none" href=3D"htt=
+ps://venmo.com/code?user_id=3D2065644925222912601&amp;actor_id=3D2470762640=
+310272272" target=3D"_blank">
+                    Ellie L
+                </a>
+               =20
+                <span>
+                    paid
+                </span>
+              =20
+               =20
+                <a style=3D"color:#0074de;text-decoration:none" href=3D"htt=
+ps://venmo.com/code?user_id=3D2470762640310272272&amp;actor_id=3D2470762640=
+310272272" target=3D"_blank">
+                   =20
+                    You
+                </a>
+               =20
+            </div>
+           =20
+            <div>
+                <p>ramennnn</p>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td style=3D"font-size:14px;padding-left:2px;color:#2f3033">
+            Transfer Date and Amount:
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td style=3D"font-size:14px;padding-left:2px;color:#2f3033">
+       =20
+            <span>Dec 15, 2023 PST</span>
+            <span> =C2=B7 </span>
+            <img style=3D"vertical-align:-1px;width:12px;height:12px" src=
+=3D"https://s3.amazonaws.com/venmo/audience/private_v2.png" alt=3D"private"=
+>
+           =20
+
+           =20
+           =20
+               =20
+                <span style=3D"color:#148572;float:right">
+                   =20
+                    + $6.56
+                   =20
+                </span>
+               =20
+           =20
+        </td>
+    </tr>
+   =20
+   =20
+   =20
+    <tr>
+        <td></td>
+        <td style=3D"padding-top:10px">
+            <table style=3D"width:170px;table-layout:fixed;font-size:14px">
+                <tbody>
+                <tr>
+                   =20
+                    <td style=3D"padding:5px 0;text-align:center;border-rad=
+ius:50px;background-color:#0074de">
+                        <a href=3D"https://venmo.com/story/3958657955118143=
+214?k=3D46f6bb0b-f1d1-4686-8371-3f9084ae926a" style=3D"text-decoration:none=
+;color:#fff;display:block;width:100%" target=3D"_blank">
+                                Like
+                        </a>
+                    </td>
+                   =20
+                   =20
+                    <td style=3D"padding:5px 0;border-radius:50px;text-alig=
+n:center;background-color:#0074de">
+                        <a href=3D"https://venmo.com/story/3958657955118143=
+214?login=3D1" style=3D"text-decoration:none;color:#fff;display:block;width=
+:100%" target=3D"_blank">
+                            Comment
+                        </a>
+                    </td>
+                   =20
+                </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+   =20
+</tbody> </table>
+
+
+
+
+
+    <div style=3D"color:#6b6e76;font-size:12px;margin-top:10px;padding-top:=
+10px;border-top:1px dotted #ccc">
+   =20
+        <p>Money credited to your Venmo account.</p>
+        <a style=3D"text-decoration:none;color:#0074de" href=3D"https://ven=
+mo.com/cash_out" target=3D"_blank">Transfer to your bank</a>.
+   =20
+    <p>Payment ID: 3958657954388494017</p>
+   =20
+  </div>
+ =20
+   =20
+<div style=3D"color:#6b6e76;font-size:12px;margin-top:10px;padding-top:10px=
+;border-top:1px dotted #ccc">
+    <div style=3D"width:50%;padding:5px;text-align:center;border-radius:50p=
+x;background-color:#0074de">
+        <a href=3D"https://venmo.com/referral/invite?campaign_service=3Dema=
+il&amp;campaign_template=3Dpayment.received" style=3D"text-decoration:none;=
+color:#000;display:block;width:100%;font-size:12px" target=3D"_blank">
+            <div style=3D"font-size:14px;color:#fff">Invite Friends!</div>
+        </a>
+    </div>
+
+
+</div>
+
+    <div id=3D"m_-2304873249963378756_receipt_disclosures" style=3D"font-si=
+ze:11px;margin-top:10px;padding-top:10px;border-top:1px dotted #ccc">
+
+    <div>
+        For any issues, including the recipient not receiving funds, please=
+ contact us at <a href=3D"mailto:support@venmo.com" target=3D"_blank">suppo=
+rt@venmo.com</a> or call 1-855-812-4430.
+    </div>
+
+
+    <div style=3D"margin-top:10px">
+        <div style=3D"margin-top:10px">This payment will be reviewed for co=
+mpliance with our User Agreement and if we determine that there is a violat=
+ion by either party, it may be reversed or your ability to transfer to your=
+ bank account may be restricted.</div>
+    </div>
+
+</div>
+
+</div>
+
+                       =20
+                    </div>
+                    <div style=3D"padding:10px 15px;color:#6b6e76;text-alig=
+n:center">
+                       =20
+                        <div style=3D"color:#6b6e76;margin-top:5px">
+                            Venmo is a service of PayPal, Inc., a licensed =
+provider of money transfer services. All money transmission is provided by =
+PayPal, Inc. pursuant to <a href=3D"https://venmo.com/legal/us-licenses/" s=
+tyle=3D"color:#0074de;text-decoration:none" target=3D"_blank">PayPal, Inc.=
+=E2=80=99s licenses</a>.
+                        </div>
+                      <p style=3D"color:#6b6e76;margin-top:14px">PayPal is =
+located at </p><p style=3D"color:#6b6e76">2211 North First Street, San Jose=
+, CA 95131</p>
+                        <div style=3D"margin-top:5px">
+                           =20
+                           =20
+                                <div style=3D"font-size:smaller;margin-top:=
+20px">For security reasons, you cannot unsubscribe from payment emails.</di=
+v>
+                           =20
+                        </div>
+                       =20
+                    </div>
+                </div>
+               =20
+               =20
+            </div>
+        </div>
+    </div>
+
+</div></div>
+
+--000000000000d3e01a060d2720d9--
