@@ -24,70 +24,59 @@ transaction_types = {
 class Transaction:
     def __init__(self, filename) -> None:
         print("processing " + filename)
-        lines = get_lines(filename)
-        memo = extract_memo(lines)
-        date = extract_date(lines)
-        transaction_type, person, amount = extract_transaction_type_person_amount(lines)
+        lines = self._get_lines(filename)
+        memo = self._extract_memo(lines)
+        date = self._extract_date(lines)
+        transaction_type, person, amount = self._extract_transaction_type_person_amount(
+            lines
+        )
 
-        self.isInflow = (transaction_types[transaction_type]["isInflow"],)
-        self.isChargeRequest = (transaction_types[transaction_type]["isChargeRequest"],)
+        self.isInflow = transaction_types[transaction_type]["isInflow"]
+        self.isChargeRequest = transaction_types[transaction_type]["isChargeRequest"]
         self.amount = amount
         self.person = person
         self.date = date
         self.memo = memo
 
     def __repr__(self) -> str:
-        return f"""{{ 
-            isInflow: {self.isInflow}
-            isChargeRequest: {self.isChargeRequest}
-            amount: {self.amount}
-            person: {self.person}
-            date: {self.date}
-            memo: {self.memo}
-          }}"""
+        return f"""{{\n\tisInflow: {self.isInflow}\n\tisChargeRequest: {self.isChargeRequest}\n\tamount: {self.amount}\n\tperson: {self.person}\n\tdate: {self.date}\n\tmemo: {self.memo}\n}}"""
 
+    def _process_line(self, s):
+        return s.replace("=20", " ").strip()
 
-def process_line(s):
-    return s.replace("=20", " ").strip()
+    def _get_lines(self, filename):
+        f = open(filename, "r")
+        soup = BeautifulSoup(f, "html.parser")
+        f.close()
+        strings = [self._process_line(s) for s in soup.strings if self._process_line(s)]
+        return strings
 
+    def _extract_transaction_type_person_amount(self, lines) -> (str, str, str):
+        """
+        returns type, person, amount
+        """
+        subject = lines[0].split("Fwd:")[1].split("\n")[0].strip()
+        parses = [
+            (type, parse(template, subject)) for type, template in templates.items()
+        ]
+        # filter for the only not-None parse
+        res = [p for p in parses if p[1] is not None][0]
 
-def get_lines(filename):
-    f = open(filename, "r")
-    soup = BeautifulSoup(f, "html.parser")
-    f.close()
-    strings = [process_line(s) for s in soup.strings if process_line(s)]
-    return strings
+        return res[0], res[1]["person"], res[1]["amount"]
 
+    def _extract_date(self, lines: []):
+        i = lines.index("Transfer Date and Amount:")
+        return lines[i + 1]
 
-def extract_transaction_type_person_amount(lines) -> (str, str, str):
-    """
-    returns type, person, amount
-    """
-    subject = lines[0].split("Fwd:")[1].split("\n")[0].strip()
-    parses = [(type, parse(template, subject)) for type, template in templates.items()]
-    # filter for the only not-None parse
-    res = [p for p in parses if p[1] is not None][0]
-
-    return res[0], res[1]["person"], res[1]["amount"]
-
-
-def extract_date(lines: []):
-    i = lines.index("Transfer Date and Amount:")
-    return lines[i + 1]
-
-
-def extract_memo(lines: []):
-    i = lines.index("Transfer Date and Amount:")
-    memo = lines[i - 1]
-    memo = memo.replace("=", "%")
-    memo = unquote(memo)
-    return memo
+    def _extract_memo(self, lines: []):
+        i = lines.index("Transfer Date and Amount:")
+        memo = lines[i - 1]
+        memo = memo.replace("=", "%")
+        memo = unquote(memo)
+        return memo
 
 
 def main():
-    # process a single file
-    # extract lines
-
     for fname in os.listdir("scratch"):
         if "lines" in fname:
             continue
