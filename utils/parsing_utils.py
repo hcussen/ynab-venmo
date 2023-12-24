@@ -1,5 +1,4 @@
 from bs4 import BeautifulSoup
-import pprint as pp
 from parse import parse
 import os
 from urllib.parse import unquote
