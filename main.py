@@ -16,6 +16,7 @@ def main():
             print("No emails found.")
             return
 
+        # write all found messages to disk
         ind = 0
         for msg in messages:
             mime_msg = email_utils.get_mime_message(
@@ -24,7 +25,7 @@ def main():
             with open(f"scratch/email_{ind}.txt", "w") as f:
                 f.write(mime_msg.get("SUBJECT") + "\n")
                 print(mime_msg.get_body(), file=f)
-            # utils.mark_as_unread(service, user_id="me", msg_id=msg["id"])
+            # email_utils.mark_as_read(service, user_id="me", msg_id=msg["id"])
             ind += 1
 
     except HttpError as error:

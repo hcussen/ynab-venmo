@@ -71,7 +71,7 @@ def get_mime_message(service, user_id, msg_id):
         print("An error occurred: %s" % error)
 
 
-def mark_as_unread(service, user_id, msg_id):
+def mark_as_read(service, user_id, msg_id):
     try:
         service.users().messages().modify(
             userId=user_id, id=msg_id, body={"removeLabelIds": ["UNREAD"]}
