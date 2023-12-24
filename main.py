@@ -1,11 +1,24 @@
+import os
 import utils.email_utils as email_utils
+from utils.parsing_utils import Transaction
+from utils.ynab_utils import *
 
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
 
+def create_Ynab_transaction(t: Transaction):
+    yt = YNABTransaction()
+    yt.from_Transaction(t)
+    yt.set_account_id(os.getenv("ACCOUNT_ID"))
+    yt.set_cleared("cleared")
+    return yt
+
+
 def main():
     creds = email_utils.authorize()
+
+    # fetch emails
 
     try:
         service = build("gmail", "v1", credentials=creds)
@@ -31,6 +44,22 @@ def main():
     except HttpError as error:
         # TODO(developer) - Handle errors from gmail API.
         print(f"An error occurred: {error}")
+
+    # create Transaction objects
+    transactions = []
+    for fname in os.listdir("scratch"):
+        if "lines" in fname:
+            continue
+
+        # create the transactions object
+        t = Transaction(f"scratch/{fname}")
+        transactions.append(t)
+
+    # create a single API call
+    ynab_transactions = [create_Ynab_transaction(t) for t in transactions]
+    r = post_transactions(os.getenv("BUDGET_ID"), ynab_transactions)
+    print("response:")
+    print(r.json())
 
 
 if __name__ == "__main__":

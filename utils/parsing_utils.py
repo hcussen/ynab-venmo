@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 from parse import parse
 import os
 from urllib.parse import unquote
+from datetime import datetime
 
 filename = "scratch/email_1.txt"
 
@@ -30,11 +31,14 @@ class Transaction:
             lines
         )
 
+        incoming_format = "%b %d, %Y"
+        dt = datetime.strptime(date[:-4], incoming_format)
+
         self.isInflow = transaction_types[transaction_type]["isInflow"]
         self.isChargeRequest = transaction_types[transaction_type]["isChargeRequest"]
-        self.amount = amount
+        self.amount = int(amount.replace(".", "")) * 10
         self.person = person
-        self.date = date
+        self.date = dt
         self.memo = memo
 
     def __repr__(self) -> str:
