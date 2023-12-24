@@ -19,7 +19,6 @@ def main():
     creds = email_utils.authorize()
 
     # fetch emails
-
     try:
         service = build("gmail", "v1", credentials=creds)
         unreads = email_utils.get_messages(service, user_id="me", query="label:unread")
@@ -38,8 +37,11 @@ def main():
             with open(f"scratch/email_{ind}.txt", "w") as f:
                 f.write(mime_msg.get("SUBJECT") + "\n")
                 print(mime_msg.get_body(), file=f)
-            # email_utils.mark_as_read(service, user_id="me", msg_id=msg["id"])
             ind += 1
+        response = email_utils.batch_mark_as_read(
+            service, user_id="me", msg_ids=[msg["id"] for msg in messages]
+        )
+        print(response)
 
     except HttpError as error:
         # TODO(developer) - Handle errors from gmail API.
@@ -55,10 +57,10 @@ def main():
         t = Transaction(f"scratch/{fname}")
         transactions.append(t)
 
-    # create a single API call
+    # create a single API call for all transaction objects
     ynab_transactions = [create_Ynab_transaction(t) for t in transactions]
     r = post_transactions(os.getenv("BUDGET_ID"), ynab_transactions)
-    print("response:")
+    print("ynab response:")
     print(r.json())
 
 

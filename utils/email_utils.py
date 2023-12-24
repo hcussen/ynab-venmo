@@ -1,10 +1,14 @@
 import base64
 import email
 import os.path
+from typing import List
 
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
+from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
+
 
 # If modifying these scopes, delete the file token.json.
 SCOPES = [
@@ -75,6 +79,30 @@ def mark_as_read(service, user_id, msg_id):
     try:
         service.users().messages().modify(
             userId=user_id, id=msg_id, body={"removeLabelIds": ["UNREAD"]}
-        )
+        ).execute()
     except Exception as error:
         print("An error occurred: %s" % error)
+
+
+def batch_mark_as_read(service, user_id, msg_ids: List[str]):
+    try:
+        service.users().messages().batchModify(
+            userId=user_id, body={"ids": msg_ids, "removeLabelIds": ["UNREAD"]}
+        ).execute()
+    except Exception as error:
+        print("An error occurred: %s" % error)
+
+
+def main():
+    """
+    test harness
+    """
+    creds = authorize()
+    try:
+        service = build("gmail", "v1", credentials=creds)
+    except HttpError as error:
+        print(f"An error occurred: {error}")
+
+
+if __name__ == "__main__":
+    main()

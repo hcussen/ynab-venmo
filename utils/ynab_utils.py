@@ -18,7 +18,7 @@ def post_transactions(budget_id, transactions: List[Transaction]):
     endpoint = budgets_endpoint(budget_id)
     headers = {"Authorization": f"Bearer {os.getenv('YNAB_TOKEN')}"}
     data = {"transactions": [t.as_json() for t in transactions]}
-    print(data)
+    print(f"posting data to YNAB api: {data}")
 
     response = requests.post(endpoint, headers=headers, json=data)
     return response
