@@ -3,6 +3,7 @@ from parse import parse
 import os
 from urllib.parse import unquote
 from datetime import datetime
+import pprint as pp
 
 filename = "scratch/email_1.txt"
 
@@ -45,20 +46,31 @@ class Transaction:
         return f"""{{\n\tisInflow: {self.isInflow}\n\tisChargeRequest: {self.isChargeRequest}\n\tamount: {self.amount}\n\tperson: {self.person}\n\tdate: {self.date}\n\tmemo: {self.memo}\n}}"""
 
     def _process_line(self, s):
-        return s.replace("=20", " ").strip()
+        s = s.replace("=20", " ")
+        s = s.strip()
+        return s
+        # return s.split("\n")
 
     def _get_lines(self, filename):
         f = open(filename, "r")
         soup = BeautifulSoup(f, "html.parser")
         f.close()
         strings = [self._process_line(s) for s in soup.strings if self._process_line(s)]
+        head, tail = os.path.split(filename)
+        newfile = f"{head}/lines_{tail}"
+        with open(newfile, "w") as f:
+            f.writelines([l + "\n" for l in strings])
         return strings
 
     def _extract_transaction_type_person_amount(self, lines) -> (str, str, str):
         """
         returns type, person, amount
         """
-        subject = lines[0].split("Fwd:")[1].split("\n")[0].strip()
+        subject = lines[0]
+        if "Fwd:" in subject:
+            subject = lines[0].split("Fwd:")[1].split("\n")[0].strip()
+        if "\n" in subject:
+            subject = subject.split("\n")[0]
         parses = [
             (type, parse(template, subject)) for type, template in templates.items()
         ]

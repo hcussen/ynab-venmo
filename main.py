@@ -22,11 +22,12 @@ def main():
     try:
         service = build("gmail", "v1", credentials=creds)
         unreads = email_utils.get_messages(service, user_id="me", query="label:unread")
-        messages = unreads["messages"]
 
-        if not unreads:
-            print("No emails found.")
+        if unreads["resultSizeEstimate"] == 0:
+            print("No new emails found.")
             return
+
+        messages = unreads["messages"]
 
         # write all found messages to disk
         ind = 0
@@ -41,7 +42,8 @@ def main():
         response = email_utils.batch_mark_as_read(
             service, user_id="me", msg_ids=[msg["id"] for msg in messages]
         )
-        print(response)
+        if response:
+            print("unable to mark emails as read")
 
     except HttpError as error:
         # TODO(developer) - Handle errors from gmail API.
