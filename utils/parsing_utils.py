@@ -28,6 +28,10 @@ class Transaction:
         lines = self._get_lines(filename)
         memo = self._extract_memo(lines)
         date = self._extract_date(lines)
+        if date is None or memo is None:
+            raise Exception(
+                "Email wasn't a Transaction type email, Transaction creation failed"
+            )
         transaction_type, person, amount = self._extract_transaction_type_person_amount(
             lines
         )
@@ -49,7 +53,6 @@ class Transaction:
         s = s.replace("=20", " ")
         s = s.strip()
         return s
-        # return s.split("\n")
 
     def _get_lines(self, filename):
         f = open(filename, "r")
@@ -74,21 +77,30 @@ class Transaction:
         parses = [
             (type, parse(template, subject)) for type, template in templates.items()
         ]
-        # filter for the only not-None parse
-        res = [p for p in parses if p[1] is not None][0]
-
-        return res[0], res[1]["person"], res[1]["amount"]
+        # filter for the not-None parse
+        valid_parse = [p for p in parses if p[1] is not None]
+        res = (None, None, None)
+        if len(valid_parse) > 0:
+            res = valid_parse[0]
+            return res[0], res[1]["person"], res[1]["amount"]
+        return res
 
     def _extract_date(self, lines: []):
-        i = lines.index("Transfer Date and Amount:")
-        return lines[i + 1]
+        query = "Transfer Date and Amount:"
+        if query in lines:
+            i = lines.index(query)
+            return lines[i + 1]
+        return None
 
     def _extract_memo(self, lines: []):
-        i = lines.index("Transfer Date and Amount:")
-        memo = lines[i - 1]
-        memo = memo.replace("=", "%")
-        memo = unquote(memo)
-        return memo
+        query = "Transfer Date and Amount:"
+        if query in lines:
+            i = lines.index(query)
+            memo = lines[i - 1]
+            memo = memo.replace("=", "%")
+            memo = unquote(memo)
+            return memo
+        return None
 
 
 def main():

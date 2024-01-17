@@ -3,7 +3,7 @@
 .env
 __pycache__/
 
-credentials.json
+*credentials.json
 token.json
 
 scratch/
