@@ -32,7 +32,7 @@ def get_arguments():
         default=True,
     )
     parser.add_argument(
-        "-real",
+        "--real",
         help="post transactions to real budget, not dev budget",
         action="store_true",
         default=False,
