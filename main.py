@@ -1,4 +1,5 @@
 import os
+import shutil
 import argparse
 import utils.email_utils as email_utils
 from utils.parsing_utils import Transaction
@@ -40,7 +41,13 @@ def get_arguments():
     args = parser.parse_args()
     return args
 
-
+def clear_scratch_folder(): 
+    for root, dirs, files in os.walk('./scratch'):
+        for f in files:
+            os.remove(os.path.join(root, f))
+        for d in dirs:
+            shutil.rmtree(os.path.join(root, d))
+            
 def create_Ynab_transaction(t: Transaction, real: bool):
     yt = YNABTransaction()
     yt.from_Transaction(t)
@@ -57,6 +64,8 @@ def main():
 
         # fetch emails
         try:
+            clear_scratch_folder()
+
             service = build("gmail", "v1", credentials=creds)
             unreads = email_utils.get_messages(
                 service, user_id="me", query="label:unread"
