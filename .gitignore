@@ -1,8 +1,9 @@
 .vscode
 .DS_Store
 .env
-__pycache__/
+__pycache__
 
+credentials_archive
 *credentials.json
 token.json
 
