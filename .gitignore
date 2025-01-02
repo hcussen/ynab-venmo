@@ -6,5 +6,6 @@ __pycache__
 credentials_archive
 *credentials.json
 token.json
+token.pickle
 
 scratch/

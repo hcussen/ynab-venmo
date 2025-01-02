@@ -1,6 +1,7 @@
 import base64
 import email
 import os.path
+import pickle
 from typing import List
 
 from google.auth.transport.requests import Request
@@ -15,27 +16,61 @@ SCOPES = [
     "https://www.googleapis.com/auth/gmail.readonly",
     "https://www.googleapis.com/auth/gmail.modify",
 ]
+TOKEN_PICKLE_FILE = "token.pickle"
+CREDENTIALS_FILE = "credentials.json"
 
 
 def authorize():
     creds = None
-    # The file token.json stores the user's access and refresh tokens, and is
-    # created automatically when the authorization flow completes for the first
-    # time.
-    if os.path.exists("token.json"):
-        creds = Credentials.from_authorized_user_file("token.json", SCOPES)
-    # If there are no (valid) credentials available, let the user log in.
-    if not creds or not creds.valid:
-        if creds and creds.expired and creds.refresh_token:
+    """Handles the OAuth2 flow with refresh token support."""
+    creds = None
+
+    # Load existing credentials from pickle file if it exists
+    if os.path.exists(TOKEN_PICKLE_FILE):
+        with open(TOKEN_PICKLE_FILE, "rb") as token:
+            creds = pickle.load(token)
+
+    # If credentials exist but are expired, refresh them
+    if creds and creds.expired and creds.refresh_token:
+        try:
             creds.refresh(Request())
-        else:
-            flow = InstalledAppFlow.from_client_secrets_file("credentials.json", SCOPES)
-            creds = flow.run_local_server(port=0)
-        # Save the credentials for the next run
-        with open("token.json", "w") as token:
-            token.write(creds.to_json())
+        except Exception as e:
+            print(f"Error refreshing token: {e}")
+            creds = None
+
+    # If no valid credentials available, start OAuth flow
+    if not creds or not creds.valid:
+        if not os.path.exists(CREDENTIALS_FILE):
+            raise FileNotFoundError(
+                "credentials.json not found. Please download OAuth 2.0 Client ID credentials "
+                "from Google Cloud Console and save as 'credentials.json'"
+            )
+
+        flow = InstalledAppFlow.from_client_secrets_file(CREDENTIALS_FILE, SCOPES)
+        creds = flow.run_local_server(port=0)
+
+        # Save the credentials for future use
+        with open(TOKEN_PICKLE_FILE, "wb") as token:
+            pickle.dump(creds, token)
 
     return creds
+    # # The file token.json stores the user's access and refresh tokens, and is
+    # # created automatically when the authorization flow completes for the first
+    # # time.
+    # if os.path.exists("token.json"):
+    #     creds = Credentials.from_authorized_user_file("token.json", SCOPES)
+    # # If there are no (valid) credentials available, let the user log in.
+    # if not creds or not creds.valid:
+    #     if creds and creds.expired and creds.refresh_token:
+    #         creds.refresh(Request())
+    #     else:
+    #         flow = InstalledAppFlow.from_client_secrets_file("credentials.json", SCOPES)
+    #         creds = flow.run_local_server(port=0)
+    #     # Save the credentials for the next run
+    #     with open("token.json", "w") as token:
+    #         token.write(creds.to_json())
+
+    # return creds
 
 
 def get_messages(service, user_id, query):
