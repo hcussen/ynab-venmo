@@ -85,7 +85,6 @@ def main():
                     service, user_id="me", msg_id=msg["id"]
                 )
                 with open(f"scratch/email_{ind}.txt", "w") as f:
-                    f.write(mime_msg.get("SUBJECT") + "\n")
                     print(mime_msg.get_body(), file=f)
                 ind += 1
             if args.read or args.real:
@@ -109,7 +108,8 @@ def main():
         try:
             t = Transaction(f"scratch/{fname}")
             transactions.append(t)
-        except:
+        except Exception as e:
+            print(e)
             print("Couldn't parse this email, moving on")
 
     # create a single API call for all transaction objects
