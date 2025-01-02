@@ -4,6 +4,7 @@ import argparse
 import utils.email_utils as email_utils
 from utils.parsing_utils import Transaction
 from utils.ynab_utils import *
+from pprint import pprint
 
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
@@ -12,42 +13,42 @@ from googleapiclient.errors import HttpError
 def get_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "-f",
-        "--fetch",
-        help="fetch new emails, default False",
+        "--dev",
+        help="fetches, does not mark as read, posts to dev budget. Default True",
+        action="store_true",
+        default=True,
+    )
+    parser.add_argument(
+        "--nofetch",
+        help="Do not fetch new emails. Default False",
         action="store_true",
         default=False,
     )
     parser.add_argument(
         "-r",
         "--read",
-        help="mark emails as read, defaults to true",
+        help="mark emails as read. default False",
         action="store_true",
-        default=True,
-    )
-    parser.add_argument(
-        "-p",
-        "--post",
-        help="post transactions to YNAB, defaults to true",
-        action="store_true",
-        default=True,
+        default=False,
     )
     parser.add_argument(
         "--real",
-        help="post transactions to real budget, not dev budget",
+        help="mark emails as read, post transactions to real budget. default False",
         action="store_true",
         default=False,
     )
     args = parser.parse_args()
     return args
 
-def clear_scratch_folder(): 
-    for root, dirs, files in os.walk('./scratch'):
+
+def clear_scratch_folder():
+    for root, dirs, files in os.walk("./scratch"):
         for f in files:
             os.remove(os.path.join(root, f))
         for d in dirs:
             shutil.rmtree(os.path.join(root, d))
-            
+
+
 def create_Ynab_transaction(t: Transaction, real: bool):
     yt = YNABTransaction()
     yt.from_Transaction(t)
@@ -59,7 +60,7 @@ def create_Ynab_transaction(t: Transaction, real: bool):
 def main():
     args = get_arguments()
 
-    if args.fetch:
+    if not args.nofetch:
         creds = email_utils.authorize()
 
         # fetch emails
@@ -87,7 +88,7 @@ def main():
                     f.write(mime_msg.get("SUBJECT") + "\n")
                     print(mime_msg.get_body(), file=f)
                 ind += 1
-            if args.read:
+            if args.read or args.real:
                 response = email_utils.batch_mark_as_read(
                     service, user_id="me", msg_ids=[msg["id"] for msg in messages]
                 )
@@ -115,13 +116,13 @@ def main():
     ynab_transactions = [
         create_Ynab_transaction(t, real=args.real) for t in transactions
     ]
-    if args.post:
-        r = post_transactions(
-            os.getenv("REAL_BUDGET_ID" if args.real else "DEV_BUDGET_ID"),
-            ynab_transactions,
-        )
-        print("ynab response:")
-        print(r.json())
+
+    r = post_transactions(
+        os.getenv("REAL_BUDGET_ID" if args.real else "DEV_BUDGET_ID"),
+        ynab_transactions,
+    )
+    print("ynab response:")
+    pprint(r.json())
 
 
 if __name__ == "__main__":

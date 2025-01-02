@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from utils.parsing_utils import Transaction
 from datetime import datetime
 from typing import List
+from pprint import pprint
 
 load_dotenv()
 
@@ -18,7 +19,8 @@ def post_transactions(budget_id, transactions: List[Transaction]):
     endpoint = budgets_endpoint(budget_id)
     headers = {"Authorization": f"Bearer {os.getenv('YNAB_TOKEN')}"}
     data = {"transactions": [t.as_json() for t in transactions]}
-    print(f"posting data to YNAB api: {data}")
+    print(f"posting data to YNAB api:")
+    pprint(data)
 
     response = requests.post(endpoint, headers=headers, json=data)
     return response
