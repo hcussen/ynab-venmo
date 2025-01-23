@@ -104,17 +104,6 @@ class Transaction:
         with open(newfile, "w") as f:
             f.writelines([l + "\n" for l in strings])
 
-    # def _get_lines(self, filename):
-    #     f = open(filename, "r")
-    #     soup = BeautifulSoup(f, "html.parser")
-    #     f.close()
-    #     strings = [self._process_line(s) for s in soup.strings if self._process_line(s)]
-    #     head, tail = os.path.split(filename)
-    #     newfile = f"{head}/lines_{tail}"
-    #     with open(newfile, "w") as f:
-    #         f.writelines([l + "\n" for l in strings])
-    #     return strings
-
     def _extract_transaction_type_person_amount(self, lines) -> (str, str, str):
         """
         returns type, person, amount

@@ -21,7 +21,6 @@ CREDENTIALS_FILE = "credentials.json"
 
 
 def authorize():
-    creds = None
     """Handles the OAuth2 flow with refresh token support."""
     creds = None
 
