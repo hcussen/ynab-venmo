@@ -1,0 +1,10 @@
+name: ynabvenmo
+channels:
+  - defaults
+dependencies:
+  - conda-forge::google-api-python-client
+  - conda-forge::google-auth-oauthlib
+  - conda-forge::beautifulsoup4
+  - parse
+  - python-dotenv
+prefix: /opt/homebrew/Caskroom/miniconda/base/envs/ynabvenmo
