@@ -9,7 +9,10 @@ To work around this, I set up an email address that all my Venmo notifications a
 conda activate ynabvenmo
 python3 main.py --real
 ```
-
+If using poetry:
+```
+ poetry run python main.py --real
+```
 
 ## Setup 
 
